@@ -1,1 +1,0 @@
-### [[A Bayesian Network]]
