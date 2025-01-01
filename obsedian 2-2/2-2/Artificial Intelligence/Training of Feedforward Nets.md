@@ -1,0 +1,55 @@
+## Different Loss (Error) Functions
+- There is a natural choice of both output unit activation function and matching error function, according to the type of problem being solved
+- ### Regression
+	- **Output activation function** : <font color="#d7e3bc">Identity</font> $(y_k=a_k)$
+	- **Loss (error) function** : <font color="#fac08f">A sum-of-squares (L2 or squared)</font>
+	- Given a training set comprising a set of input vectors $\{x_n\}_{n=1}^N$, together with a corresponding set of target vectors $\{t_n\}$, we minimize the error function$$E(w)=\frac{1}{2}\sum_{n=1}^N||y(x_n,w)-t_n||^2$$
+- ### Binary classification
+	- We have a single target variable (or label) $t$ such that $t=1$ denotes class $C_1$ and $t=0$ denotes class $C_2$
+	- **Output activation function** : <font color="#d7e3bc">Sigmoid</font> $(y=\sigma(a))$
+	- **Loss (error) function** : <font color="#fac08f">Negative log likelihood or cross-entropy</font>![](https://i.imgur.com/cRIBeF3.png)
+- ### Multiclass classification
+	- Each input is assigned to one of $K$ mutually exclusive classes
+	- The binary target variables $t_k\in\{0,1\}$ have a $1-of-K$ coding scheme indicating the class, and the network outputs are interpreted as $y_k(x,w)=P(t_k=1|x)$
+	- **Output activation function** : <font color="#d7e3bc">Softmax</font> $\bigg(y_k=exp(a_k)/(\sum_jexp(a_j))\bigg)$
+	- **Loss (error) function** : <font color="#fac08f">Negative log likelihood or cross-entropy</font>
+## Cross-Entropy and Maximum Likelihood Estimation
+- Ref : ![[Entropy]]
+- ![[Maximum Likelihood Estimation]]
+- Connection between cross-entropy and MLE
+	- ![](https://i.imgur.com/C8ixYJt.png)
+- We can see the problem of getting the best parameter $w_{ML}$ using **maximum likelihood estimation** as **minimizing the cross-entropy** between our parametric model $P_{model}(x;w)$ and the empirical distribution $P_{training}(x)$
+## Parameter Optimization
+- The task of finding a weight vector $w$ which minimizes the chosen function $E(w)$
+	- **Global minimum** 
+		- A minimum that corresponds to the smallest value f the error function for any weight vector
+	- **Local minima**
+		- Any other minima corresponding to higher values of the error function
+	- For a successful application of neural networks, it may not be necessary to find the global minimum (and in general it will not be known whether the global minima has been found) but it may be necessary to compare several local minima in order to find a sufficiently good solution
+		- ![](https://i.imgur.com/bVVt7Cc.png)
+- ![[Gradient Descent#Gradient Descent]]
+## Forward Propagation & Backpropagation
+- ![](https://i.imgur.com/3qgryCj.png)
+- Error backpropgation (or simply backprop)
+	- An efficient technique for evaluating the gradient of an error function $E(w)$, i.e.,$\triangledown E(w)$, for a feed-forward neural network
+	- Backpropagation is an algorithm that computes the [[Chain Rule]] with a specific order of operations that is highly efficient
+- Forward Propagation , ref to [[Feedforward Networks#Computation of Feedfoward Networks with Another Notation]]
+	- Let $a_j=\sum_iw_{ji}z_i$  ,  $z_j=h(a_j)$
+- Backpropagation
+	- Consider the evaluation of the derivative of $E_n$ with respect to a weight $w_{ji}$
+		- Apply  the chain rule $$\frac{\delta E_n}{\delta w_{ji}}=\frac{\delta E_n}{\delta a_j}\cdot\frac{\delta a_j}{\delta w_{ji}}$$
+			- We now introduce a useful notation ($\delta$'s are often reffered to as errors)$$\delta_j\equiv\frac{\delta E_n}{\delta a_j}$$
+			- Also, $\frac{\delta a_j}{\delta w_{ji}}=z_i$ (check above defin)
+			- We then obtain $$\frac{\delta E_n}{\delta w_{ji}}=\delta_j\cdot z_i$$
+	- <font color="#c3d69b">$\delta_j$</font>$\cdot$<font color="#fac08f">$z_i$</font> tells us that the required derivative is obtained
+		- Simply by multiplying <font color="#c3d69b">the value of $\delta$ for the unit at the output end of the weight</font> by <font color="#fac08f">the value of $z_i$ for the unit at the input end of the weight</font>
+		- Thus in order to evaluate the derivatives, <font color="#b2a2c7">we need only to calculate the value of $\delta_j$ for each hidden and output unit in the network</font>
+	- To evaluate the $\delta$'s for hidden units
+		- We again make use of the chain rule for partial derivatives$$\delta_j\equiv\frac{\delta E_n}{\delta a_j}=\sum_k\frac{\delta E_n}{\delta a_k}\cdot\frac{\delta a_k}{\delta a_j}$$![|400](https://i.imgur.com/6CUzpZD.png)
+		- $$\frac{\delta a_k}{\delta a_j}=\frac{\delta a_k}{\delta z_j}\cdot\frac{\delta z_j}{\delta a_j}=w_{kj}\cdot h'(a_j)$$
+		- Finally, we obtain the following backpropagation formula$$\delta_j=h'(a_j)\sum_kw_{kj}\delta_k$$ which tells us that the value of $\delta$ for a particular hidden unit can be obtained by propagating the $\delta$'s backwards from units higher up in the network
+## Automatic Differentiation
+- The gradient computation can be automatically inferred from the symbolic expression of the forward propagation
+- Modern DL framworks (Tensorflow, [[PyTorch]], etc.) do backpropagation for you
+- Why Should We Nonetheless Understand Backprop?
+	- ![](https://i.imgur.com/0PGb3yU.png)

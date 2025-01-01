@@ -1,0 +1,53 @@
+#math #probability #artificial_intelligence 
+- Sample space Ω: The set of all the outcomes of a random experiment(The set of all possible worlds).
+	- The Greek letter Ω is used to refer to the sample space, and $\omega$ refers to elements of the space (particular possible worlds).
+- Sets of events (or event space) ℱ: A set whose elements $A$ ∈ ℱ (called events) are subsets of Ω (i.e., $A$ ∈ Ω is a collection of possible outcomes of an experiment).
+- Probability measure (probability model): A function $P$:ℱ → ℝ that satisfies the following properties,
+	- $P(A)$ ≥ 0, $\forall A$ ∈ ℱ (0 ≤ $P(\omega)\leq1$ for every $\omega$ 
+	- $P(\Omega)$ = 1 ($∑_{\omega\in\Omega}P(\omega)$ = 1)
+	- If $A_1,A_2,\cdots$ are disjoint events, then $P(∪_iA_i) = ∑_iP(A_i)$
+	- These three properties are called the Axioms of Probability.
+- c.f.) Notation: $P(A)$ vs. $Pr(A)$
+- Random Variables
+	>A variable that can take on different values randomly
+	>- Formally, a random variable is $X$ a function $X$: Ω → ℝ.
+	>- Typically denote the random variable itself with upper case letter ($X$).
+	>- The values it can take on are represented with lower case letters (e.g., $x_1,x_2$). 
+	- Discrete random variable
+		- <font color="#fac08f">probability mass function, PMF</font>
+	- Continuous random variable
+		- <font color="#fac08f">probability density function, PDF</font>
+- Marginal Probability
+	- $\forall x\in X,P(X=x)=\sum_y{P(X=x,Y=Y)}$
+	- $p(x)=\int{p(x,y)dy}$
+- Conditional Probability$$P(Y=y|X=x)=\frac{P(Y=y,X=x)}{P(X=x)}$$
+	- $X$ is called evidence
+	- The Chain Rull$$P(x_1,x_2,...,x_n)=P(x_1)\Pi_{i=2}^n{P(x_i|x_1,...,x_{i-1}})$$
+	- Independence$$\forall x\in X,y\in Y, P(X=x,Y=y)=P(X=x)P(Y=y)$$
+		- $X\bot Y$ means that $X$ and $Y$ are independent
+	- Conditional Independence$$\forall x\in X,y\in Y,z\in Z, P(X=x,Y=y|Z=z)=P(X=x|Z=z)P(Y=y|Z=z)$$
+		- $X\bot Y|Z$ means that $X$ and $Y$ are conditionally independent given $Z$
+	- Bayes' Rule$$P(x|y)=\frac{P(y|x)P(x)}{P(y)}$$$$P(y)=\sum_xP(y|x)P(x)$$
+		- $P(x|y)$ : Posterior
+		- $P(y|x)$ : Likelihood
+		- $P(x)$ : Prior
+		- $P(y)$ : Evidence
+- Expectation : the average or mean value that $f$ takes on when $x$ is drawn from $P$
+	- $\mathbb{E}_{x~P(x)}[f(x)]=\sum_xP(x)f(x)$
+	- $\mathbb{E}_{x~P(x)}[f(x)]=\int p(x)f(x)dx$
+	- Simplification : $\mathbb{E}_x[f(x)],\ \mathbb{E}[f(x)]$
+- Variance
+	- $Var(f(x))=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])^2]$
+- Covariance
+	- $Cov(f(x),g(y))=\mathbb{E}[(f(x)-\mathbb{E}[f(x)])((g(y)-\mathbb{E}[g(y)])]$
+- Common Probability Distributions
+	- Bernoulli Distribution : $\phi\in[0,1]$
+	- Multinoulli Distribution
+	- Normal DIstribution (Gaussian Distribution) $$\mathcal{N}(x;\mu,\sigma^2)=\sqrt{\frac{1}{2\pi\sigma^2}}\text{exp}(-\frac{1}{2\sigma^2}(x-\mu)^2)$$
+		- a good default choice for two major reasons:
+			- First, many distributions we wish to model are truly close to being normal distributions. The <font color="#fac08f">central limit theorem</font> shows that the sum of many independent random variables is approximately normally distributed.
+			- Second, out of all possible probability distributions with the same variance, the normal distribution encodes the maximum amount of uncertainty over the real numbers. We can thus think of the normal distribution as being the one that inserts the least amount of prior knowledge into a model.
+	- Dirac delta function, $\delta(x) : p(x)=\delta(x-\mu)$
+		- Infinity narrow and Infinity high peak of probability mass where $x = \mu$
+	- Mixtures of Distribution
+		- mainly using <font color="#fac08f">the Gaussian mixture model</font>
