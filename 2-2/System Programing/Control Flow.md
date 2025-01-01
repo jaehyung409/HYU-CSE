@@ -1,0 +1,15 @@
+## Control Flow
+- Processors do only one thing :
+	- From startup to shutdown, a CPU simply reads and executes(interprets) a sequence of instructions, one at a time
+	- This sequence is the CPU's control flow (or flow of control)
+	- ![](https://i.imgur.com/xWSGc5a.png)
+- Altering the Control Flow
+	- Up to now : two mechanisms for changing control flow (React to changes in <font color="#e36c09">program state</font>)
+		- Jumps and Branches
+		- Call and Return
+	- Insufficient for a useful system : Difficult to react to changes in ***system state***
+		- Data arrives from a disk or a network adapter
+		- Instruction divides by zero
+		- User hits Ctrl-C at the keyboard
+		- System timer expires
+	- System need mechanisms for "[[Exceptional Control Flow]]"

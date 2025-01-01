@@ -1,0 +1,66 @@
+#### Overview of Network Layer
+![](https://i.imgur.com/CETGZ6y.png)
+- Data Plane 
+	- local, per-router function
+	- e.g., determines how datagram arriving on router input port is forwarded to router output port  
+- Control Plane
+	- network-wide logic
+	- determines how datagram is routed among routers along end-end path from source host to destination host
+- network layer protocols in every Internet device
+	- hosts
+	- routers
+		- examines header fields in all IP datagrams passing through it
+		- moves datagrams from input ports to output ports to transefer datagram along end-end path
+- Forwarding and Routing
+	- forwarding : move packets from a router's input link to appropriate router output link (local)
+		- forwarding table (longest prefix matching)
+	- routing : determine route taken by packets from source to destination (global)
+#### The Internet Protocol : IPv4, Addressing
+- IPv4
+	- IP Datagram format![](https://i.imgur.com/6YnAjkn.png)
+	- Address
+		- dotted-decimal IP address notation (x.x.x.x)
+		- interface : The boundary between the host/router and the physical link
+			- router's typically have multiple interfaces
+			- host typically has one or two interfaces (wired Ethernet, wireless 802.11)
+		- subnet
+			- device interface that can physically reach each other without passing through an intervening router
+			- *To determin the subnets, detach each interface from its host or router, creating islands of isolated networks, with interface terminating the end points of the isolated networks. Each of these isolated networks is called a subnet*
+			- subnet mask : /x (~CIDR)
+				- high-order x bits : subnet part of IP address![|400x300](https://i.imgur.com/UwZXcYq.png)
+		- CIDR (<font color="#e5b9b7">C</font>lassless <font color="#e5b9b7">I</font>nter<font color="#e5b9b7">D</font>omain <font color="#e5b9b7">R</font>outing)
+			- subnet portion of address of arbitrary lenggth
+			- address format: a.b.c.d/x, where x is \# bits in subnet portion of address (subnet part, host part)
+	- Addressing
+		- How does a <font color="#e5b9b7">host</font> get IP
+			- hard-coded 
+			- <font color="#e5b9b7">DHCP</font>(Dynamic Host Configuration Protocol)
+				- plug-and-play
+				- goal : host *dynamically* obtain IP address from network server when it "joins" network
+					- can renew its lease on address in use
+					- allows reuse of address (only hold address while connected\on)
+					- support for mobil users who join/leave network
+				- ![](https://i.imgur.com/B9GjL4l.png)
+				- ![](https://i.imgur.com/cOipBMR.png)![](https://i.imgur.com/i2vi0dD.png)
+				- DHCP can return more than just allocated IP address on subnet
+					- address of first-hop router for client
+					- name and IP address of DNS server
+					- network mask (indicating network versus host portion of address)
+		- How does a <font color="#e5b9b7">network</font> get IP 
+			- gets allocated portion of its provider ISP's address space
+				- Hierachical addressing -> Longest Prefix Match
+			- How does an ISP get block of address
+				- ICANN(Internet Corporation for Assigned Names and Numbers)
+	- NAT (Network Address Translation)  
+		- all devices in local network share just <font color="#e5b9b7">one</font> IPv4 address as far as outside world is concerned
+			- there are hundreds of thousands of home networks, many using the same address spaece. (only have meaning within a given home network)
+		- ![](https://i.imgur.com/KLuIHr3.png)
+		- implmentation with NAT translation table (at the NAT router)
+		- controversial
+			- routers "should" only process up to layer 3
+			- address "shortage" should be solved by IPv6
+			- violates end-to-end argument (port \# manipulation by network-layer device)
+			- NAT traversal : what if client wants to connect to server behind NAT?
+		- but NAT is here to stay
+			- extensively used in home and institutional nets, 4G/5G cellular nets
+
